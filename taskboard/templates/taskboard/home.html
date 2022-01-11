@@ -1,0 +1,74 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="Flex-row space-between align-center h100 w100">
+        <div class="Flex-column space-between align-center">
+            <img id="notebook" src="{% static 'notebook.png' %}" alt="image" />
+        </div>
+        <div class="Flex-column space-between align-center h100 hpadding">
+            <div class="Flex-column space-between align-center">
+                <div class="Flex-row task-nav space-between align-center margin-top">
+                    <a href="{% url 'taskboard:index' %}{{ daybefore }}">
+                        <img src="{% static 'left.png' %}" alt="image" />
+                    </a>
+                    <h2>{{ day }}</h2>
+                    <a href="{% url 'taskboard:index' %}{{ dayafter }}">
+                        <img src="{% static 'right.png' %}" alt="image" />
+                    </a>
+                </div>
+                <h3 id="todo-list">To do list</h3>
+                <ul class="todo-items w100">
+                    {% for task in tasks %}
+                    <li class="Flex-row space-between align-center w100">
+                        <div class="Flex-row flex-start align-center">
+                            <img class="todo-img1" src="{% static 'task.png' %}" />
+                            <p>{{ task.description }}</p>
+                        </div>
+                        {% if allowupdate %}
+                            <form action="{% url 'taskboard:update' date %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" style="display: none" name="task_id" value="{{ task.id }}" >
+                            {% if task.completed %}
+                                <button class="task-button"><img class="todo-img3" src="{% static 'task_completed_true.png' %}" /></button>
+                            {% else %}
+                                <button class="task-button"><img class="todo-img2" src="{% static 'task_completed_false.png' %}" /></button>
+                            {% endif %}
+                            </form>
+                        {% else %}
+                            {% if task.completed %}
+                                <img class="todo-img3" src="{% static 'task_completed_true.png' %}" />
+                            {% else %}
+                                <img class="todo-img2" src="{% static 'task_completed_false.png' %}" />
+                            {% endif %}
+                        {% endif %}
+                    </li>
+
+                    {% comment %} 
+                        <div class="Flex-row flex-start align-center">
+                            <img class="todo-img1" src="{% static 'task.png' %}" />
+                            <p>To work on health app</p>
+                        </div>
+                        
+                    
+                    <li class="Flex-row space-between align-center w100">
+                        <div class="Flex-row flex-start align-center">
+                            <img class="todo-img1" src="{% static 'task.png' %}" />
+                            <p>To complete XYZ</p>
+                        </div>
+                        
+                    </li> {% endcomment %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="new-task" class="Flex-row task-nav flex-end align-center margin-bottom">
+                {% if not past %}
+                <a href="new" class="Flex-row task-nav flex-end align-center">
+                    <img src="{% static 'new.png' %}" alt="new" />
+                    <p>ADD New</p>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

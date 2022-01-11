@@ -1,0 +1,12 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <h1>Add a New Task</h1>
+    <form class="site-form" action="{% url 'taskboard:new' date %}" method="post">
+        {% csrf_token %}
+        {{ form.description }}
+        {{ form.user.as_hidden }}
+        {{ form.date.as_hidden }}
+        <input type="submit" value="Add Task">
+    </form>
+{% endblock %}

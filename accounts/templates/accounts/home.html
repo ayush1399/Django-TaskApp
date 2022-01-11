@@ -1,0 +1,12 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="account Flex-column h100 w100 margin-top align-center">
+        <h2>Account Details</h2>
+        <p>Name: {{user.first_name}}{{ ' ' }}{{user.last_name}}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Phone Number: {{ user.phone }}</p>
+        <p>Gender: {{ gender }}</p>
+    </div>
+    
+{% endblock %}
